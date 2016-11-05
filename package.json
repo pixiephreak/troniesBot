@@ -1,0 +1,29 @@
+{
+  "name": "pixiephreak",
+  "version": "1.0.0",
+  "description": "tronies bot",
+  "main": "server.js",
+  "scripts": {
+    "test": "test",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/pixiephreak/troniesBot.git"
+  },
+  "keywords": [
+    "technica",
+    "bot",
+    "tronies",
+    "chromakey"
+  ],
+  "author": "pixiephreak",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/pixiephreak/troniesBot/issues"
+  },
+  "homepage": "https://github.com/pixiephreak/troniesBot#readme",
+  "dependencies": {
+    "twit": "^2.2.5"
+  }
+}
