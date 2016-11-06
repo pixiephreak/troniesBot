@@ -7,6 +7,79 @@ var fs = require('fs'),
 
 var T = new Twit(config);
 
-T.post('statuses/update', { status: 'Look, I am tweeting!' }, function(err, data, response) {
-  console.log(data)
-});
+var images = [
+	'tronie_1.png',
+	'tronie_2.png',
+	'tronie_3.png',
+	'tronie_4.png',
+	'tronie_5.png',
+	'tronie_6.png',
+	'tronie_7.png',
+	'tronie_8.png'
+];
+
+function pick_random_tronie(){
+  var tronies = [
+	'tronie_1.png',
+	'tronie_2.png',
+	'tronie_3.png',
+	'tronie_4.png',
+	'tronie_5.png',
+	'tronie_6.png',
+	'tronie_7.png',
+	'tronie_8.png'
+];
+  // console.log(tronies[Math.floor(Math.random() * tronies.length)])
+  tronie = tronies[Math.floor(Math.random() * tronies.length)];
+  return tronie;
+}
+
+function pick_random_title(){
+	var titles = [
+	'Title: A Young Woman Reading   Artist: Imitator of Johannes Vermeer (ca. 1925–27)',
+	'Title: Study of a Young Woman  Artist:Johannes Vermeer (Dutch, Delft 1632–1675 Delft)',
+	'Title: Tronie of a young woman  Artist: Rembrant',
+	'Title: Malle Babbe   Artist: Frans Hals'
+	]
+	title = titles [Math.floor(Math.random() * titles.length)];
+	return title;
+}
+
+
+function upload_random_image(){
+  console.log('Opening an image...');
+  var image_path = path.join(__dirname, '/png/' + pick_random_tronie()),
+      b64content = fs.readFileSync(image_path, { encoding: 'base64' });
+  console.log(image_path);
+  console.log('Uploading an image...');
+
+  T.post('media/upload', { media_data: b64content }, function (err, data, response) {
+    if (err){
+      console.log('ERROR');
+      console.log(err);
+    }
+    else{
+      console.log('Uploaded an image!');
+
+      T.post('statuses/update', {
+      	status: pick_random_title(),
+        media_ids: new Array(data.media_id_string)
+      },
+        function(err, data, response) {
+          if (err){
+            console.log('Error!');
+            console.log(err);
+          }
+          else{
+            console.log('Posted an image!');
+          }
+        }
+      );
+    }
+  });
+}
+
+upload_random_image();
+
+// setInterval(upload_random_image, 60,000);
+
