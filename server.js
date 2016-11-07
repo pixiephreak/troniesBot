@@ -7,7 +7,9 @@ var fs = require('fs'),
 
 var T = new Twit(config);
 
-var images = [
+var tronie = '';
+
+var tronies = [
 	'tronie_1.png',
 	'tronie_2.png',
 	'tronie_3.png',
@@ -19,20 +21,18 @@ var images = [
 ];
 
 function pick_random_tronie(){
-  var tronies = [
-	'tronie_1.png',
-	'tronie_2.png',
-	'tronie_3.png',
-	'tronie_4.png',
-	'tronie_5.png',
-	'tronie_6.png',
-	'tronie_7.png',
-	'tronie_8.png'
-];
   // console.log(tronies[Math.floor(Math.random() * tronies.length)])
   tronie = tronies[Math.floor(Math.random() * tronies.length)];
   return tronie;
 }
+
+function removeTronie(){
+  	index = (tronies.indexOf(tronie));
+  	if (index > -1){
+  		tronies = tronies.splice(index, 1);
+  		return tronies
+  		}
+  	}
 
 function pick_random_title(){
 	var titles = [
@@ -50,8 +50,9 @@ function upload_random_image(){
   console.log('Opening an image...');
   var image_path = path.join(__dirname, '/png/' + pick_random_tronie()),
       b64content = fs.readFileSync(image_path, { encoding: 'base64' });
-  console.log(image_path);
-  console.log('Uploading an image...');
+  removeTronie();
+  console.log(tronies);
+  console.log(`Uploading ${image_path}`);
 
   T.post('media/upload', { media_data: b64content }, function (err, data, response) {
     if (err){
